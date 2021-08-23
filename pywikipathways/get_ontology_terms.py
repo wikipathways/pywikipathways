@@ -19,3 +19,11 @@ def get_pathways_by_ontology_term(term):
 def get_pathway_ids_by_ontology_term(term):
     res = get_pathways_by_ontology_term(term)
     return res['id']
+
+def get_pathways_by_parent_ontology_term(term):
+    res = wikipathways_get('getPathwaysByParentOntologyTerm', {'term': term, 'format': 'json'})
+    return pandas.DataFrame(res['pathways'])
+
+def get_pathway_ids_by_parent_ontology_term(term):
+    res = get_pathways_by_parent_ontology_term(term)
+    return res['id']
