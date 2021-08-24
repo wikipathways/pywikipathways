@@ -1,3 +1,5 @@
+import pandas
+
 def find_pathways_by_literature(query):
     res = wikipathways_get('findPathwaysByLiterature', {'query': query, 'format': 'json'})
     dictlist = []
@@ -17,3 +19,15 @@ def find_pathways_by_literature(query):
             d['literature.title'] = i['fields'].get('literature.title')['values']
         dictlist.append(d)
     return pandas.DataFrame(dictlist).sort_values(by=['score'])
+
+def find_pathway_ids_by_literature(query):
+    res = find_pathways_by_literature(query)
+    return res['id']
+
+def find_pathway_names_by_literature(query):
+    res = find_pathways_by_literature(query)
+    return res['name']
+
+def find_pathway_urls_by_literature(query):
+    res = find_pathways_by_literature(query)
+    return res['url']
