@@ -30,7 +30,7 @@ def wikipathways_get(operation, parameters=None, base_url=DEFAULT_BASE_URL):
         except ValueError as e:
             return r.text
     except requests.exceptions.RequestException as e:
-        _handle_error(e)
+        print("Error: ", e)
 
 def build_url(base_url=DEFAULT_BASE_URL, operation=None):
     if operation is not None:
