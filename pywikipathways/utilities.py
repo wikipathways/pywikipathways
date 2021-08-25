@@ -1,4 +1,5 @@
 import requests
+import pandas
 import urllib.parse
 
 DEFAULT_BASE_URL = 'https://webservice.wikipathways.org'
