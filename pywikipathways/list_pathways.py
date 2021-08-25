@@ -1,4 +1,4 @@
-import pandas
+from .utilities import *
 
 def list_pathways(organism=""):
     res = wikipathways_get('listpathways', {'organism':  organism, 'format': 'json'})
