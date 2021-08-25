@@ -1,4 +1,4 @@
-import pandas
+from .utilities import *
 
 def get_recent_changes(timestamp):
     res = wikipathways_get('getRecentChanges', {'timestamp': timestamp, 'format': 'json'})
