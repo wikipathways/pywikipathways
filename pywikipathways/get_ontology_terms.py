@@ -1,4 +1,4 @@
-import pandas
+from .utilities import *
 
 def get_ontology_terms(pathway):
     res = wikipathways_get('getOntologyTermsByPathway', {'pwId': 'WP554', 'format': 'json'})
