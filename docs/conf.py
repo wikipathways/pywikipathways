@@ -5,7 +5,7 @@ import pywikipathways
 version = pywikipathways.__version__
 release = version
 
-extensions = [
+extensions = ['nbsphinx'
 ]
 
 templates_path = ['_templates']
