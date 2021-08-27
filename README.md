@@ -8,3 +8,6 @@ It provides programmatic access to WikiPathways content in multiple data and ima
 ```
 pip install pywikipathways
 ```
+
+## Documentation
+https://pywikipathways.readthedocs.io
