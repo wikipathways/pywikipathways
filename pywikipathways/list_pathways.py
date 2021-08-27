@@ -10,7 +10,7 @@ def list_pathways(organism=""):
         organism (str): A particular species.
     
     Returns:
-        dataframe: A dataframe of pathway information.
+        pandas.DataFrame: A dataframe of pathway information.
         
     Examples:
         >>> list_pathways('Mus musculus')
@@ -44,7 +44,7 @@ def list_pathway_ids(organism=""):
         organism (str): A particular species.
     
     Returns:
-        dataframe: A dataframe of pathway information.
+        pandas.Series: A series of WPIDs.
         
     Examples:
         >>> list_pathway_ids('Mus musculus')
@@ -65,6 +65,32 @@ def list_pathway_ids(organism=""):
     return res['id']
 
 def list_pathway_names(organism=""):
+    """List Pathway Names
+    
+    Retrieve list of pathway names per species.
+    Basically returns a subset of list_pathways result.
+    
+    Args:
+        organism (str): A particular species.
+    
+    Returns:
+        pandas.Series: A series of names.
+        
+    Examples:
+        >>> list_pathway_names('Mus musculus')
+        0                            Statin pathway
+        1                    IL-9 signaling pathway
+        2                  Cholesterol biosynthesis
+        3      Selenium metabolism / selenoproteins
+        4                TGF-beta signaling pathway
+                               ...                 
+        230                   Tryptophan metabolism
+        231                          Focal adhesion
+        232                   Nucleotide metabolism
+        233            Toll-like receptor signaling
+        234                  IL-4 signaling pathway
+        Name: name, Length: 235, dtype: object
+    """
     res = list_pathways(organism)
     return res['name']
 
