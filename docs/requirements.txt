@@ -1,1 +1,2 @@
 git+https://github.com/kozo2/pywikipathways.git@devel
+nbsphinx
