@@ -34,4 +34,8 @@ def download_pathway_archive(date='current', organism=None, format='gpml', destp
                 if format == 'gmt':
                     ext = ".gmt"
                 filename = "-".join(['wikipathways', date, format, organism.replace(" ", "_")]) + ext
-        url = "/".join(['http://data.wikipathways.org', date, format, filename]
+        url = "/".join(['http://data.wikipathways.org', date, format, filename])
+        r = requests.get(url)
+        file = open(filename, "wb")
+        file.write(r.content)
+        file.close()
