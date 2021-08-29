@@ -1,9 +1,15 @@
 import re
 import sys
+import requests
+import pandas
 
 from .list_organisms import *
 
 def download_pathway_archive(date='current', organism=None, format='gpml', destpath='./'):
+    # get validated format
+    if not format in ['gpml', 'gmt', 'svg']:
+        sys.exit(format + " is not in ['gpml', 'gmt', 'svg']. Please specify one of these."
+    
     # validate date
     if date != 'current':
         if not re.match("^\\d{8}$", date):
@@ -16,5 +22,16 @@ def download_pathway_archive(date='current', organism=None, format='gpml', destp
             sys.exit('The organism must match the list of supported organisms, see list_organisms()')
     
     # download specific file, or...
-    #if organism:
-        
+    if organism:
+        if date == 'current':
+            curr_files = pandas.read_html("https://wikipathways-data.wmcloud.org/current/" + format)[0]['Filename']
+            filename = curr_files[curr_files.str.contains(organism.replace(" ", "_"))]
+            if not True in curr_files.str.cotains(organism.replace(" ", "_")):
+                sys.exit('Could not find a file matching your specifications. Try browsing http://data.wikipathways.org.')
+        else:
+            if requests.get("https://wikipathways-data.wmcloud.org/" + date).ok:
+                ext = ".zip"
+                if format == 'gmt':
+                    ext = ".gmt"
+                filename = "-".join(['wikipathways', date, format, organism.replace(" ", "_")]) + ext
+        url = "/".join(['http://data.wikipathways.org', date, format, filename]
