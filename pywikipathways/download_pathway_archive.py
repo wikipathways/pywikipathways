@@ -8,7 +8,7 @@ from .list_organisms import *
 def download_pathway_archive(date='current', organism=None, format='gpml', destpath='./'):
     # get validated format
     if not format in ['gpml', 'gmt', 'svg']:
-        sys.exit(format + " is not in ['gpml', 'gmt', 'svg']. Please specify one of these."
+        sys.exit(format + " is not in ['gpml', 'gmt', 'svg']. Please specify one of these.")
     
     # validate date
     if date != 'current':
