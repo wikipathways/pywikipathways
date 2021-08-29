@@ -41,3 +41,6 @@ def download_pathway_archive(date='current', organism=None, format='gpml', destp
         file.write(r.content)
         file.close()
         return filename
+    else:
+        url = "/".join(['http://data.wikipathways.org', date, format])
+        print("organism argument is not specified. Open " + url + " with your web browser and specify the organism.")
