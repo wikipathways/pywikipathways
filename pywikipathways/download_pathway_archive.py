@@ -40,3 +40,4 @@ def download_pathway_archive(date='current', organism=None, format='gpml', destp
         file = open(filename, "wb")
         file.write(r.content)
         file.close()
+        return filename
