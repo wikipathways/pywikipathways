@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 
+from .download_pathway_archive import *
 from .find_pathway_by_text import *
 from .find_pathways_by_literature import *
 from .find_pathways_by_xref import *
