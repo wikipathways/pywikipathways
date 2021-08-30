@@ -25,7 +25,8 @@ setuptools.setup(
     include_package_data=True,
     install_requires=[
         'requests',
-        'pandas'
+        'pandas',
+        'lxml'
     ],
     classifiers=[
         'Intended Audience :: Science/Research',
