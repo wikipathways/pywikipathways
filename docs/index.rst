@@ -6,5 +6,5 @@ Welcome to pywikipathways documentation!
    :caption: Contents:
 
    pywikipathways_Overview
-
-
+   pywikipathways-and-bridgedbpy
+   
