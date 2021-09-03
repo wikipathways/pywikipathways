@@ -7,4 +7,4 @@ Welcome to pywikipathways documentation!
 
    pywikipathways_Overview
    pywikipathways-and-bridgedbpy
-   
+   pywikipathways-and-py4cytoscape
