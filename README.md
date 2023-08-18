@@ -19,5 +19,14 @@ Just as py4cytoscape ports RCy3 and function specifications to Python, pywikipat
 pip install pywikipathways
 ```
 
+## Instructions for installing the development version
+
+1. Install Python and [pip](https://pip.pypa.io/en/stable/)
+2. Install [Git](https://git-scm.com/download)
+3. Install the development version of pywikipathways with the following command.
+  ```
+  pip install git+https://github.com/kozo2/pywikipathways.git
+  ```
+
 ## Documentation
 https://pywikipathways.readthedocs.io
