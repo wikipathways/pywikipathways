@@ -1,10 +1,17 @@
-#from find_pathway_by_text import find_pathways_by_text
 import pytest
 from pywikipathways.find_pathway_by_text import *
 
 def test_find_pathways_by_text():
     # Test with a query that should return at least one pathway
     query = 'cancer'
+    result = find_pathways_by_text(query)
+    assert len(result) > 0
+
+    query = '5-FU'
+    result = find_pathways_by_text(query)
+    assert len(result) > 0
+
+    query = ['cancer', '5-FU']
     result = find_pathways_by_text(query)
     assert len(result) > 0
 
