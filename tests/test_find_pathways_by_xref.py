@@ -7,5 +7,5 @@ def test_find_pathways_by_xref():
     assert len(pathways) > 0
 
     # find by Xref (again)
-    pathways = find_pathways_by_xref(identifier="ENSG00000232810", systemCode="En")
+    pathways = find_pathways_by_xref(identifier="ENSG00000232810", system_code="En")
     assert len(pathways) > 0
