@@ -11,4 +11,4 @@ def test_find_pathways_by_text():
     # Test with a query that should not return any pathways
     query = 'qwertyuiop'
     result = find_pathways_by_text(query)
-    assert len(result) == 0
+    assert result is None
