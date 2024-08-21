@@ -6,6 +6,31 @@ import pandas
 from .list_organisms import *
 
 def download_pathway_archive(date='current', organism=None, format='gpml', destpath='./'):
+    """Download Pathway Archive
+
+    Access the monthly archives of pathway content from WikiPathways.
+
+    If you do not specify an organism, then an archive file will not be downloaded.
+    Instead, the archive will be opened in a tab in your default browser.
+
+    Args:
+        date (str, optional): The timestamp for a monthly release (e.g., 20171010) 
+            or "current" (default) for the latest release.
+        organism (str, optional): A particular species. See `listOrganisms`.
+        format (str, optional): Either "gpml" (default), "gmt", or "svg".
+        destpath (str, optional): Destination path for the file to be downloaded to. 
+            Default is the current working directory.
+
+    Returns:
+        str: Filename of the downloaded file or an opened tab in the default browser.
+
+    Examples:
+        >>> download_pathway_archive()  # open in browser
+        >>> download_pathway_archive(format="gmt")  # open in browser
+        >>> download_pathway_archive(date="20230710", format="svg")  # open in browser
+        >>> download_pathway_archive(date="20230710", organism="Mus musculus", format="svg")  # download file
+        >>> download_pathway_archive(organism="Mus musculus")  # download file
+    """
     # get validated format
     if not format in ['gpml', 'gmt', 'svg']:
         sys.exit(format + " is not in ['gpml', 'gmt', 'svg']. Please specify one of these.")
