@@ -49,18 +49,16 @@ def download_pathway_archive(date='current', organism=None, format='gpml', destp
     # download specific file, or...
     if organism:
         if date == 'current':
-            curr_files = pandas.read_html("https://wikipathways-data.wmcloud.org/current/" + format)[0]['Filename']
-            filename = curr_files[curr_files.str.contains(organism.replace(" ", "_"))]
-            filename = list(filename)[0]
-            if not True in curr_files.str.contains(organism.replace(" ", "_")):
+            curr_files = pandas.read_html("https://data.wikipathways.org/current/" + format)[0]["File Name"]
+            filename = curr_files[curr_files.str.contains(organism.replace(" ", "_"))].iloc[0]
+            if len(filename) == 0:
                 sys.exit('Could not find a file matching your specifications. Try browsing http://data.wikipathways.org.')
         else:
-            if requests.get("https://wikipathways-data.wmcloud.org/" + date).ok:
-                ext = ".zip"
-                if format == 'gmt':
-                    ext = ".gmt"
-                filename = "-".join(['wikipathways', date, format, organism.replace(" ", "_")]) + ext
-        url = "/".join(['http://data.wikipathways.org', date, format, filename])
+            ext = ".zip"
+            if format == 'gmt':
+                ext = ".gmt"
+            filename = "-".join(['wikipathways', date, format, organism.replace(" ", "_")]) + ext
+        url = "/".join(['https://data.wikipathways.org', date, format, filename])
         r = requests.get(url)
         file = open(filename, "wb")
         file.write(r.content)
