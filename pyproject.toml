@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pywikipathways"
+version = "0.0.3"
+authors = [
+  { name="Kozo Nishida", email="kozo.nishida@gmail.com" },
+]
+description = "Python Client Package for WikiPathways."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+]
+dependencies = [
+  "requests",
+  "pandas",
+  "lxml"
+]
+
+[project.urls]
+Homepage = "https://github.com/wikipathways/pywikipathways"
+Issues = "https://github.com/wikipathways/pywikipathways/issues"
