@@ -62,7 +62,7 @@ def find_pathways_by_xref(identifier, system_code):
                     filtered_pathways.append(pathway)
         
         if len(filtered_pathways) == 0:
-            print("No results")
+            print(f"No pathways found for identifier '{identifier}' with system code '{system_code}'")
             return None
             
         # Convert to DataFrame and return
