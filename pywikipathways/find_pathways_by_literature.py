@@ -50,7 +50,7 @@ def find_pathways_by_literature(query):
                 filtered_pathways.append(pathway)
         
         if len(filtered_pathways) == 0:
-            print("No results")
+            print(f"No pathways found matching query: {query}")
             return None
             
         # Convert to DataFrame and return
