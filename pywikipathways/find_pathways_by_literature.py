@@ -1,5 +1,4 @@
 from .utilities import *
-import requests
 
 def find_pathways_by_literature(query):
     """Find Pathways By Literature
