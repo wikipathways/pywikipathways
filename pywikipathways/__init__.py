@@ -5,6 +5,7 @@ from .find_pathways_by_text import *
 from .find_pathways_by_literature import *
 from .find_pathways_by_orcid import *
 from .find_pathways_by_xref import *
+from .get_counts import *
 from .get_curation_tags import *
 from .get_ontology_terms import *
 from .get_pathway import *
