@@ -32,20 +32,20 @@ def find_pathways_by_literature(query):
         query_lower = query.lower()
         filtered_pathways = []
         
+        # Define the fields that are likely to contain literature information
+        literature_fields = [
+            'refs', 'citations', 'authors', 'title', 'journal', 'year', 'pmid', 'doi', 'citation', 'reference'
+        ]
         for pathway in pathway_info:
             # Check if query matches any literature-related fields
             match_found = False
-            
-            # Check all fields that might contain literature information
-            # Based on R implementation, we check from 'refs' to 'citations' columns
-            for key, value in pathway.items():
+            for field in literature_fields:
+                value = pathway.get(field)
                 if value is not None:
-                    # Convert value to string and check for match
                     value_str = str(value).lower()
                     if query_lower in value_str:
                         match_found = True
                         break
-            
             if match_found:
                 filtered_pathways.append(pathway)
         
