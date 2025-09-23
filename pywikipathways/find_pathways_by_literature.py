@@ -23,7 +23,7 @@ def find_pathways_by_literature(query):
         data = response.json()
         
         if 'pathwayInfo' not in data:
-            print("No pathway information found in response")
+            print("API response missing expected pathwayInfo data structure")
             return None
             
         pathway_info = data['pathwayInfo']
