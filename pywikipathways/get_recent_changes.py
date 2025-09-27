@@ -1,111 +1,124 @@
-from .utilities import *
-from datetime import datetime
+"""Python translation of the `getRecentChanges` utilities from R/getRecentChanges.R."""
 
-def get_recent_changes(timestamp=None):
-    """Get Recent Changes
-    
-    Retrieve recently changed pathways at WikiPathways from a static JSON endpoint.
-    
-    Args:
-        timestamp (str): (8 digits, YYYYMMDD) Limit by time, only pathways changed 
-                        after the given date, e.g., '20180201' for changes since 
-                        Feb 1st, 2018. If None, defaults to '20070301'.
-    
-    Returns:
-        pandas.DataFrame: A dataframe of recently changed pathways, including id, name,
-                         url, species and revision, or None if no results.
-    """
+from __future__ import annotations
+
+import datetime as _dt
+from typing import Any, Dict, List
+import pandas as pd
+import requests
+
+_INFO_URL = "https://www.wikipathways.org/json/getPathwayInfo.json"
+_DROP_FIELDS = {"authors", "description", "citedIn"}
+
+def _normalize_timestamp(timestamp: str | int | None) -> _dt.date:
+    """Return the cutoff date derived from the provided timestamp."""
     if timestamp is None:
-        timestamp = '20070301'
-    
-    # Ensure timestamp is string and limit to 8 digits
-    timestamp = str(timestamp)[:8]
-    
+        timestamp = 20070301
+    text = str(timestamp)[:8]
+    if len(text) != 8:
+        raise ValueError("Timestamp must contain at least 8 digits (YYYYMMDD).")
     try:
-        # Fetch the static JSON file containing all pathway info data
-        response = requests.get('https://www.wikipathways.org/json/getPathwayInfo.json')
+        return _dt.datetime.strptime(text, "%Y%m%d").date()
+    except ValueError as exc:
+        raise ValueError("Timestamp must be in YYYYMMDD format.") from exc
+
+
+def _parse_revision_date(raw: str | None) -> _dt.date | None:
+    """Convert revision text to a date if possible."""
+    if not raw:
+        return None
+    raw = raw.strip()
+    if not raw:
+        return None
+
+    iso_candidate = raw[:10]
+    try:
+        return _dt.date.fromisoformat(iso_candidate)
+    except ValueError:
+        pass
+
+    basic_candidate = raw[:8]
+    try:
+        return _dt.datetime.strptime(basic_candidate, "%Y%m%d").date()
+    except ValueError:
+        return None
+
+
+def _fetch_recent_changes_json() -> Dict[str, Any]:
+    """Fetch the recent changes JSON payload."""
+    try:
+        response = requests.get(_INFO_URL, timeout=30)
         response.raise_for_status()
-        data = response.json()
-        
-        if 'pathwayInfo' not in data:
-            print("API response missing expected pathwayInfo data structure")
-            return None
-            
-        pathway_info = data['pathwayInfo']
-        
-        # Filter pathways that have revision dates after the given timestamp
-        filtered_pathways = []
-        
-        try:
-            # Convert timestamp to datetime for comparison
-            timestamp_date = datetime.strptime(timestamp, '%Y%m%d')
-            
-            for pathway in pathway_info:
-                revision = pathway.get('revision')
-                if revision is not None:
-                    try:
-                        # Convert revision date to datetime for comparison
-                        revision_date = datetime.strptime(str(revision)[:8], '%Y%m%d')
-                        if revision_date > timestamp_date:
-                            # Remove unwanted fields like in R implementation
-                            filtered_pathway = {k: v for k, v in pathway.items() 
-                                              if k not in ['authors', 'description', 'citedIn']}
-                            filtered_pathways.append(filtered_pathway)
-                    except (ValueError, TypeError):
-                        # Skip pathways with invalid revision dates
-                        continue
-                        
-        except ValueError:
-            print(f"Invalid timestamp format: {timestamp}. Expected YYYYMMDD format.")
-            return None
-        
-        if len(filtered_pathways) == 0:
-            print(f"No pathways found changed after {timestamp}")
-            return None
-            
-        # Convert to DataFrame and return
-        return pandas.DataFrame(filtered_pathways)
-        
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching data: {e}")
-        return None
-    except Exception as e:
-        print(f"Error processing data: {e}")
-        return None
+        return response.json()
+    except requests.HTTPError as exc:
+        raise RuntimeError(
+            f"Failed to retrieve JSON data ({exc.response.status_code})."
+        ) from exc
+    except requests.RequestException as exc:
+        raise RuntimeError("Failed to retrieve JSON data (network error).") from exc
 
-def get_recent_changes_ids(timestamp):
-    """Get WPIDs of Recent Changes
-    
-    Retrieve WPIDs of recently changed pathways at WikiPathways.
-    
-    Args:
-        timestamp (str): (8 digits, YYYYMMDD) Limit by time, only pathways changed 
-                        after the given date, e.g., '20180201' for changes since 
-                        Feb 1st, 2018.
-    
-    Returns:
-        pandas.Series or None: A series of pathway IDs, or None if no results.
-    """
-    res = get_recent_changes(timestamp)
-    if res is None:
-        return None
-    return res['id']
 
-def get_recent_changes_names(timestamp):
-    """Get Pathway Names of Recent Changes
-    
-    Retrieve names of recently changed pathways at WikiPathways.
-    
-    Args:
-        timestamp (str): (8 digits, YYYYMMDD) Limit by time, only pathways changed 
-                        after the given date, e.g., '20180201' for changes since 
-                        Feb 1st, 2018.
-    
-    Returns:
-        pandas.Series or None: A series of pathway names, or None if no results.
-        Note: pathway deletions will be listed as blank names.
+def get_recent_changes(timestamp: str | int | None = None) -> pd.DataFrame:
+    """Return recently changed pathways filtered by timestamp.
+
+    Parameters
+    ----------
+    timestamp : str | int | None, optional
+        8-digit cutoff (YYYYMMDD). Pathways with revision dates after this value
+        are returned. Defaults to ``20070301`` when omitted.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Table of pathway records excluding ``authors``, ``description``, and
+        ``citedIn`` fields.
     """
-    res = get_recent_changes(timestamp)
-    if res is None:
-        return None
-    return res['name']
+
+    cutoff = _normalize_timestamp(timestamp)
+    payload = _fetch_recent_changes_json()
+    entries = payload.get("pathwayInfo", [])
+
+    template_columns: List[str] | None = None
+    records: List[Dict[str, Any]] = []
+    for entry in entries:
+        if not isinstance(entry, dict):
+            continue
+        revision_date = _parse_revision_date(entry.get("revision"))
+        if revision_date is None or revision_date <= cutoff:
+            continue
+        filtered = {k: v for k, v in entry.items() if k not in _DROP_FIELDS}
+        if template_columns is None:
+            template_columns = list(filtered.keys())
+        records.append(filtered)
+
+    if template_columns is None:
+        template_columns = []
+        for entry in entries:
+            if not isinstance(entry, dict):
+                continue
+            for key in entry.keys():
+                if key in _DROP_FIELDS or key in template_columns:
+                    continue
+                template_columns.append(key)
+
+    frame = pd.DataFrame.from_records(records, columns=template_columns)
+    return frame
+
+
+def get_recent_changes_ids(timestamp: str | int | None = None) -> List[Any]:
+    """Return pathway IDs for recent changes after the given timestamp."""
+    frame = get_recent_changes(timestamp)
+    return frame.get("id", pd.Series(dtype=object)).tolist()
+
+
+def get_recent_changes_names(timestamp: str | int | None = None) -> List[Any]:
+    """Return pathway names for recent changes after the given timestamp."""
+    frame = get_recent_changes(timestamp)
+    return frame.get("name", pd.Series(dtype=object)).tolist()
+
+
+__all__ = [
+    "get_recent_changes",
+    "get_recent_changes_ids",
+    "get_recent_changes_names",
+]
