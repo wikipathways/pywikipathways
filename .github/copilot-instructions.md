@@ -83,7 +83,7 @@ PYTHONPATH=/path/to/pywikipathways:$PYTHONPATH sphinx-build -b html . _build/htm
 ### Core Package Structure (`pywikipathways/`)
 - `__init__.py` - Main package imports (47 public functions)
 - `utilities.py` - Core HTTP client (`wikipathways_get()`, `build_url()`)
-- `_version.py` - Version definition (currently 0.0.2)
+- `_version.py` - Version definition (currently 0.0.3)
 
 ### Main API Modules
 Each module corresponds to a WikiPathways API endpoint:
