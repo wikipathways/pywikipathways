@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pywikipathways"
-version = "0.0.3"
+version = "0.1.0"
 authors = [
   { name="Kozo Nishida", email="kozo.nishida@gmail.com" },
 ]
