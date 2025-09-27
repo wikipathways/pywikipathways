@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pywikipathways"
-version = "0.0.3"
+version = "0.1.0"
 authors = [
   { name="Kozo Nishida", email="kozo.nishida@gmail.com" },
 ]
@@ -16,6 +16,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering :: Bio-Informatics",
     "Topic :: Scientific/Engineering :: Information Analysis",
     "Topic :: Scientific/Engineering :: Mathematics",
