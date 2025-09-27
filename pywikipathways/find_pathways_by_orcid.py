@@ -1,4 +1,4 @@
-from .utilities import *
+import requests
 
 def find_pathways_by_orcid(orcid):
     """Find Pathways By ORCID
