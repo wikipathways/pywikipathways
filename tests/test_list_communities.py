@@ -12,11 +12,12 @@ from pywikipathways.list_communities import (
 def test_list_communities_returns_results():
     """list_communities should return community data or None on network issues."""
     result = list_communities()
+    result.to_csv("test.csv")
 
     assert result is None or len(result) > 0
 
     if result is not None:
-        expected_columns = {"community-tag", "display-name", "home-page", "description", "logo-url"}
+        expected_columns = {"display-name", "title", "short-description", "community-tag", "editors"}
         assert expected_columns.issubset(set(result.columns))
 
 

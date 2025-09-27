@@ -35,11 +35,11 @@ def list_communities():
         community_info = []
         for community in communities:
             community_data = {
-                'community-tag': community.get('community-tag'),
                 'display-name': community.get('display-name'),
-                'home-page': community.get('home-page'),
-                'description': community.get('description'),
-                'logo-url': community.get('logo-url')
+                'title': community.get('title'),
+                'short-description': community.get('short-description'),
+                'community-tag': community.get('community-tag'),
+                'editors': community.get('editors')
             }
             community_info.append(community_data)
         
