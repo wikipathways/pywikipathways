@@ -1,5 +1,5 @@
-from .utilities import *
-
+import requests
+import pandas
 
 def list_pathways(organism=""):
     """List Pathways
