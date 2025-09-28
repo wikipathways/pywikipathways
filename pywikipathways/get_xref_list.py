@@ -18,6 +18,11 @@ _CODE_MAP = {
     "Wd": "Wikidata",
     "Ce": "ChEBI",
     "Ik": "InChI",
+    "Cpc": "PubChem",
+    "Cs": "ChemSpider",
+    "Ch": "HMDB",
+    "Ck": "KEGG",
+    "Lm": "LipidMaps",
 }
 
 _BASE_URL = (
