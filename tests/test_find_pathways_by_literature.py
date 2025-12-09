@@ -1,9 +1,5 @@
-import pytest
 from pywikipathways.find_pathways_by_literature import (
     find_pathways_by_literature,
-    find_pathway_ids_by_literature,
-    find_pathway_names_by_literature,
-    find_pathway_urls_by_literature,
 )
 
 def test_find_pathways_by_literature():
