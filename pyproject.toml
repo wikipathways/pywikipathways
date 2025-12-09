@@ -33,6 +33,11 @@ dependencies = [
   "lxml"
 ]
 
+[tool.uv]
+dev-dependencies = [
+  "pytest",
+]
+
 [project.urls]
 Homepage = "https://github.com/wikipathways/pywikipathways"
 Issues = "https://github.com/wikipathways/pywikipathways/issues"

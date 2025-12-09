@@ -28,5 +28,15 @@ pip install pywikipathways
   pip install git+https://github.com/kozo2/pywikipathways.git
   ```
 
+### Developing with uv
+If you prefer [uv](https://github.com/astral-sh/uv) for environment and dependency management:
+
+```
+uv venv
+source .venv/bin/activate  # or .venv\\Scripts\\activate on Windows
+uv pip install -e .
+uv run pytest
+```
+
 ## Documentation
 https://pywikipathways.readthedocs.io

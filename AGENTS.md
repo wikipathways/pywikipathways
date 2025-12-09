@@ -33,6 +33,7 @@ Use this file as the first stop when changing code or docs. Default triage order
 
 ## Development Workflow
 - Use a virtual environment and install locally with `pip install -e .` to iterate quickly.
+- `uv` works out of the box with `pyproject.toml`; `uv pip install -e .` and `uv run pytest` mirror the pip workflow.
 - Respect the repo’s minimum Python version (see `pyproject.toml`) and keep dependencies lightweight—prefer standard library or existing deps (`requests`, `pandas`, `lxml`).
 - When touching generation scripts or notebooks (see `docs/pywikipathways_Overview.ipynb`), keep output size modest and consider moving long examples into docs instead of inline tests.
 - For new functionality, update `README.md` and Read the Docs sources under `docs/` so users discover additions.
