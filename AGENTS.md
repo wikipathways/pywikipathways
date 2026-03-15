@@ -12,6 +12,7 @@ Use this file as the first stop when changing code or docs. Default triage order
 - **Naming:** Apply the same porting rules as [RCy3](https://github.com/cytoscape/RCy3) → [py4cytoscape](https://github.com/cytoscape/py4cytoscape): convert **file names** and **function names** from camelCase to snake_case (e.g. `getPathwayInfo` → `get_pathway_info`, `FindPathwaysByLiterature` → `find_pathways_by_literature`).
 - **Behaviour:** Port function processing faithfully from the R source—same inputs, same outputs, same edge cases and error semantics. Do not change logic or add behaviour that diverges from the original.
 - Keep argument names aligned with the R originals where possible (snake_case in Python).
+- **Do not port** [rWikiPathways `R/utilities.R`](https://github.com/wikipathways/rWikiPathways/blob/devel/R/utilities.R): it is deprecated; do not add the porting to this package.
 
 ## Code Structure and Conventions
 - `pywikipathways/utilities.py` holds shared HTTP helpers (`wikipathways_get`, `build_url`). Reuse and extend these rather than duplicating request code.
