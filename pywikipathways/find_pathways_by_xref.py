@@ -1,4 +1,5 @@
 import requests
+import pandas as pd
 
 def find_pathways_by_xref(identifier, system_code):
     """Find Pathways By Xref
@@ -65,7 +66,7 @@ def find_pathways_by_xref(identifier, system_code):
             return None
             
         # Convert to DataFrame and return
-        return pandas.DataFrame(filtered_pathways).drop_duplicates(ignore_index=True)
+        return pd.DataFrame(filtered_pathways).drop_duplicates(ignore_index=True)
         
     except requests.exceptions.RequestException as e:
         print(f"Error fetching data: {e}")

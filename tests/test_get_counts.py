@@ -1,4 +1,5 @@
 import pytest
+import pandas as pd
 from pywikipathways.get_counts import get_counts
 
 
@@ -27,7 +28,7 @@ def test_get_counts_return_type():
     result = get_counts()
     
     # Should return either None (network error) or pandas DataFrame
-    assert result is None or str(type(result)) == "<class 'pandas.core.frame.DataFrame'>"
+    assert result is None or isinstance(result, pd.DataFrame)
 
 
 def test_get_counts_no_parameters():
