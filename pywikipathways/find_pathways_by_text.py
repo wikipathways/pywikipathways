@@ -1,5 +1,5 @@
-from .utilities import *
-
+import requests
+import pandas
 
 def find_pathways_by_text(query, field=None):
     """Find Pathways By Text

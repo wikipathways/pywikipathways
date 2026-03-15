@@ -1,5 +1,4 @@
 import requests
-from .utilities import *
 
 def find_pathways_by_xref(identifier, system_code):
     """Find Pathways By Xref
