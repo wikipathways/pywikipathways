@@ -3,9 +3,15 @@
 Use this file as the first stop when changing code or docs. Default triage order: keep regressions and API compatibility first, then small improvements, then new endpoints.
 
 ## Mission and Scope
-- Provide Python interfaces for WikiPathways operations; parity with rWikiPathways is the long-term goal (function names adapt to snake_case).
+- This Python package is a **faithful port** of [rWikiPathways](https://github.com/wikipathways/rWikiPathways) to Python. Function behaviour and processing logic must match the R original.
+- Provide Python interfaces for WikiPathways operations; parity with rWikiPathways is the long-term goal.
 - Core package lives in `pywikipathways/`; each module wraps either a static JSON endpoint or a live webservice call.
 - This repo is user-facing (published on PyPI) and powers scientific workflows; prioritise backwards compatibility and clear error handling.
+
+## Porting from rWikiPathways
+- **Naming:** Apply the same porting rules as [RCy3](https://github.com/cytoscape/RCy3) → [py4cytoscape](https://github.com/cytoscape/py4cytoscape): convert **file names** and **function names** from camelCase to snake_case (e.g. `getPathwayInfo` → `get_pathway_info`, `FindPathwaysByLiterature` → `find_pathways_by_literature`).
+- **Behaviour:** Port function processing faithfully from the R source—same inputs, same outputs, same edge cases and error semantics. Do not change logic or add behaviour that diverges from the original.
+- Keep argument names aligned with the R originals where possible (snake_case in Python).
 
 ## Code Structure and Conventions
 - `pywikipathways/utilities.py` holds shared HTTP helpers (`wikipathways_get`, `build_url`). Reuse and extend these rather than duplicating request code.
