@@ -1,6 +1,3 @@
-from .utilities import *
-
-
 def find_pathways_by_text(query, field=None):
     """Find Pathways By Text
 
