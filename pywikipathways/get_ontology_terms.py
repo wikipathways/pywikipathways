@@ -1,6 +1,16 @@
 import requests
 import pandas as pd
 
+
+def _normalize_exploded_column(df, column_name, prefix):
+    exploded_df = df.explode(column_name).reset_index(drop=True)
+    normalized = pd.json_normalize(
+        exploded_df[column_name].apply(lambda value: value if isinstance(value, dict) else {})
+    )
+    if not normalized.empty:
+        normalized.columns = [f"{prefix}_{col}" for col in normalized.columns]
+    return pd.concat([exploded_df.drop(column_name, axis=1), normalized], axis=1)
+
 # ----------------------------------------------------------------------
 # Get Ontology Terms by Pathway
 def get_ontology_terms(pathway=None):
@@ -9,13 +19,7 @@ def get_ontology_terms(pathway=None):
     pathways_data = res['pathways']
     res_df = pd.DataFrame(pathways_data)
     if 'terms' in res_df.columns:
-        # Explode lists to separate rows first, then normalize
-        res_df_exploded = res_df.explode('terms')
-        terms_normalized = pd.json_normalize(res_df_exploded['terms'])
-        terms_normalized.columns = ['terms_' + col for col in terms_normalized.columns]    
-        # Combine back
-        res_df = pd.concat([res_df_exploded.drop('terms', axis=1).reset_index(drop=True), 
-                            terms_normalized.reset_index(drop=True)], axis=1)
+        res_df = _normalize_exploded_column(res_df, 'terms', 'terms')
     
     if pathway is not None:
         res_df = res_df[res_df["id"] == pathway]
@@ -42,13 +46,7 @@ def get_pathways_by_ontology_term(term=None):
     pathways_data = res['terms']
     res_df = pd.DataFrame(pathways_data)
     if 'pathways' in res_df.columns:
-        # Explode lists to separate rows first, then normalize
-        res_df_exploded = res_df.explode('pathways')
-        pathways_normalized = pd.json_normalize(res_df_exploded['pathways'])
-        pathways_normalized.columns = ['pathways_' + col for col in pathways_normalized.columns]    
-        # Combine back
-        res_df = pd.concat([res_df_exploded.drop('pathways', axis=1).reset_index(drop=True), 
-                            pathways_normalized.reset_index(drop=True)], axis=1)    
+        res_df = _normalize_exploded_column(res_df, 'pathways', 'pathways')
     
     if term is not None:
         res_df = res_df[res_df["id"] == term]
@@ -69,13 +67,7 @@ def get_pathways_by_parent_ontology_term(term=None):
     pathways_data = res['pathways']
     res_df = pd.DataFrame(pathways_data)
     if 'terms' in res_df.columns:
-        # Explode lists to separate rows first, then normalize
-        res_df_exploded = res_df.explode('terms')
-        terms_normalized = pd.json_normalize(res_df_exploded['terms'])
-        terms_normalized.columns = ['terms_' + col for col in terms_normalized.columns]    
-        # Combine back
-        res_df = pd.concat([res_df_exploded.drop('terms', axis=1).reset_index(drop=True), 
-                            terms_normalized.reset_index(drop=True)], axis=1)
+        res_df = _normalize_exploded_column(res_df, 'terms', 'terms')
     
     if term is not None:
         res_df = res_df[res_df["terms_parent"] == term]
